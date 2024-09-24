@@ -1,5 +1,9 @@
 import os
 import csv
+import subprocess
+import time
+
+
 
 AUDITORIA_PATH = 'src/main/java/com/example/projeto_amqp/python/auditoria.csv'
 LOG_SUPORTE_PATH = 'src/main/java/com/example/projeto_amqp/python/log_suporte.txt'
@@ -9,9 +13,11 @@ def adicionar_ticket():
     nome_cliente = input("Digite o nome do cliente: ")
     descricao_chamado = input("Digite a descrição do chamado: ")
     
-    os.system(f'java -jar target/projeto_amqp-0.0.1-SNAPSHOT.jar "{nome_cliente}" "{descricao_chamado}"')
+    #os.system(f'java -jar target/projeto_amqp-0.0.1-SNAPSHOT.jar "{nome_cliente}" "{descricao_chamado}"')
+    subprocess.Popen(f'java -jar target/projeto_amqp-0.0.1-SNAPSHOT.jar "{nome_cliente}" "{descricao_chamado}"', shell=True)
+
     print("Chamado adicionado com sucesso.")
-    
+    time.sleep(3)
 
 def ver_e_resolver_ticket():
     try:
@@ -25,12 +31,13 @@ def ver_e_resolver_ticket():
             
             escolha = int(input("Digite o número do ticket que deseja resolver: ")) - 1
             if 0 <= escolha < len(tickets):
+                nome_analista = input("Digite o nome do Analista: ")
                 ticket_resolvido = tickets.pop(escolha)
                 
                 resposta = input(f"Digite a resposta para o cliente no ticket: {ticket_resolvido.strip()} ")
 
                 with open(LOG_SUPORTE_PATH, 'a', newline='') as log_file:
-                    log_file.write(f"Resolvido: {ticket_resolvido.strip()} - Resposta: {resposta}\n")
+                    log_file.write(f"Resolvido: {ticket_resolvido.strip()} | Resolvido por: {nome_analista} - Resposta: {resposta}\n")
                 print(f"Ticket resolvido e registrado em log_suporte.txt: {ticket_resolvido.strip()}")
 
                 with open(AUDITORIA_PATH, 'w', newline='') as file:
