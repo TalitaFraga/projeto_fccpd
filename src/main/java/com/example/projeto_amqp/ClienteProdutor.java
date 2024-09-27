@@ -18,10 +18,11 @@ public class ClienteProdutor implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (args.length >= 2) {
-            String nomeCliente = args[0];
+        if (args.length >= 3) {
+            String tipoSuporte = args[0];
+            String nomeCliente = args[1];
             StringBuilder chamadoBuilder = new StringBuilder();
-            for (int i = 1; i < args.length; i++) {
+            for (int i = 2; i < args.length; i++) {
                 chamadoBuilder.append(args[i]).append(" ");
             }
             String chamado = chamadoBuilder.toString().trim();
@@ -29,8 +30,17 @@ public class ClienteProdutor implements CommandLineRunner {
             String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"));
 
             String mensagem = "[" + dataHora + "] " + nomeCliente + ": " + chamado;
-
-            rabbitTemplate.convertAndSend(EXCHANGE_NAME, "", mensagem);
+            // Definir a chave de roteamento baseada no tipo de suporte
+            String routingKey = "";
+            if (tipoSuporte.equalsIgnoreCase("software")) {
+                routingKey = "suporte.software";
+            } else if (tipoSuporte.equalsIgnoreCase("hardware")) {
+                routingKey = "suporte.hardware";
+            } else {
+                System.out.println("Tipo de suporte inválido. Use 'software' ou 'hardware'.");
+                return;
+            }
+            rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, mensagem);
             System.out.println("Chamado de suporte enviado com sucesso: " + mensagem);
         } else {
             System.out.println("É necessário fornecer o nome do cliente e a descrição do chamado.");

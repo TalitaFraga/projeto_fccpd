@@ -4,14 +4,15 @@ import time
 
 def callback(ch, method, properties, body):
     mensagem = body.decode()
-    print(f"Novo chamado de Software - {mensagem}")
 
-    # Gravar no arquivo auditoria_software.csv
-    with open("auditoria_software.csv", "a", newline="") as arq_tickets:
+    print(f"AUDITORIA HARDWARE: Mensagem recebida - {mensagem}")
+
+    # Escrever no arquivo auditoria_hardware.csv
+    with open("auditoria_hardware.csv", "a", newline="") as arq_tickets:
         writer = csv.writer(arq_tickets)
         writer.writerow([mensagem])
 
-def start_suporte_software():
+def start_auditoria_hardware():
     while True:
         try:
             # Conectar ao RabbitMQ no CloudAMQP
@@ -20,17 +21,17 @@ def start_suporte_software():
             connection = pika.BlockingConnection(params)
             channel = connection.channel()
 
-            # Declarar o exchange
+            # Declarar o exchange como 'topic'
             channel.exchange_declare(exchange='support_ticket_exchange', exchange_type='topic', durable=True)
 
-            # Declarar uma fila temporária para o suporte de software
+            # Declarar uma fila temporária para o backend de auditoria de hardware
             result = channel.queue_declare(queue='', exclusive=True)
             queue_name = result.method.queue
 
-            # Associar a fila ao exchange com a routing key para software
-            channel.queue_bind(exchange='support_ticket_exchange', queue=queue_name, routing_key='suporte.software')
+            # Associar a fila ao exchange, escutando apenas mensagens de 'hardware'
+            channel.queue_bind(exchange='support_ticket_exchange', queue=queue_name, routing_key='suporte.hardware')
 
-            print('Suporte esperando por novos tickets de Software...')
+            print('Backend de auditoria para Hardware esperando por mensagens...')
 
             # Configurar o consumidor
             channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
@@ -42,5 +43,4 @@ def start_suporte_software():
             print("Conexão com RabbitMQ perdida. Tentando reconectar...")
             time.sleep(5)
 
-# Iniciar o consumidor de software
-start_suporte_software()
+start_auditoria_hardware()

@@ -1,6 +1,6 @@
 package com.example.projeto_amqp;
 
-import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     @Bean
-    public FanoutExchange fanoutExchange() {
-        return new FanoutExchange("support_ticket_exchange");
+    public TopicExchange topicExchange() {
+        return new TopicExchange("support_ticket_exchange");
     }
 }
