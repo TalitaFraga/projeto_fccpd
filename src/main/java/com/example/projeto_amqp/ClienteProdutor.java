@@ -31,8 +31,7 @@ public class ClienteProdutor implements CommandLineRunner {
 
             String mensagem = "[" + dataHora + "] " + nomeCliente + ": " + chamado;
 
-            // Definir a chave de roteamento baseada no tipo de suporte
-            String routingKey = "suporte." + tipoSuporte.toLowerCase();  // "suporte.hardware" ou "suporte.software"
+            String routingKey = "suporte." + tipoSuporte.toLowerCase(); 
 
             rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, mensagem);
             System.out.println("Chamado de suporte enviado com sucesso: " + mensagem);

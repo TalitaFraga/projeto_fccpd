@@ -3,7 +3,6 @@ import csv
 import time
 
 
-# Caminhos para os arquivos de auditoria
 AUDITORIA_SOFTWARE_PATH = 'auditoria_software.csv'
 AUDITORIA_HARDWARE_PATH = 'auditoria_hardware.csv'
 
@@ -11,7 +10,6 @@ def callback(ch, method, properties, body):
     mensagem = body.decode()
     routing_key = method.routing_key
 
-    # Salvar a mensagem no arquivo correspondente
     if routing_key == 'suporte.software':
         print(f"AUDITORIA SOFTWARE: Mensagem recebida - {mensagem}")
         with open(AUDITORIA_SOFTWARE_PATH, 'a', newline='') as arq_tickets:
