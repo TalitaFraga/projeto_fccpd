@@ -6,11 +6,6 @@ def callback(ch, method, properties, body):
     mensagem = body.decode()
     print(f"Novo chamado de Hardware - {mensagem}")
 
-    # Gravar no arquivo auditoria_hardware.csv
-    with open("auditoria_hardware.csv", "a", newline="") as arq_tickets:
-        writer = csv.writer(arq_tickets)
-        writer.writerow([mensagem])
-
 def start_suporte_hardware():
     while True:
         try:
@@ -20,12 +15,12 @@ def start_suporte_hardware():
             connection = pika.BlockingConnection(params)
             channel = connection.channel()
 
-            channel.exchange_declare(exchange='support_ticket_exchange', exchange_type='topic', durable=True)
+            channel.exchange_declare(exchange='support_ticket_topic_exchange', exchange_type='topic', durable=True)
 
             result = channel.queue_declare(queue='', exclusive=True)
             queue_name = result.method.queue
 
-            channel.queue_bind(exchange='support_ticket_exchange', queue=queue_name, routing_key='suporte.hardware')
+            channel.queue_bind(exchange='support_ticket_topic_exchange', queue=queue_name, routing_key='suporte.hardware')
 
             print('Suporte esperando por novos tickets de Hardware...')
 

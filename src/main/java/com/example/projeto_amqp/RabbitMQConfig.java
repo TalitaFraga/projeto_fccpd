@@ -9,6 +9,6 @@ public class RabbitMQConfig {
 
     @Bean
     public TopicExchange topicExchange() {
-        return new TopicExchange("support_ticket_exchange");
+        return new TopicExchange("support_ticket_topic_exchange");
     }
 }

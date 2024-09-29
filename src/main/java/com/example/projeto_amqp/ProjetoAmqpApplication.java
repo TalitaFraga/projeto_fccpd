@@ -35,7 +35,7 @@ public class ProjetoAmqpApplication implements CommandLineRunner {
 		String message = String.format("Cliente: %s - Descrição: %s", nomeCliente, descricaoChamado);
 
 		// Publicar a mensagem no RabbitMQ
-		rabbitTemplate.convertAndSend("support_ticket_exchange", routingKey, message);
+		rabbitTemplate.convertAndSend("support_ticket_topic_exchange", routingKey, message);
 
 		System.out.println("Mensagem enviada: " + message);
 	}

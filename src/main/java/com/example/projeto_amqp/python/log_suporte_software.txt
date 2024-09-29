@@ -1,0 +1,3 @@
+Resolvido: Cliente: Talita - Descrição: Excel sem licença | Resolvido por: Jose  - Resposta: Excel atualizado 
+Resolvido: Cliente: Luiz - Descrição: VScode com problemas para iniciar | Resolvido por: Theo - Resposta: VScode atualizado com sucesso
+Resolvido: Cliente: Henrique  - Descrição: excel sem abrir | Resolvido por: Talita - Resposta: Excel atualizado

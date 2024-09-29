@@ -6,10 +6,6 @@ def callback(ch, method, properties, body):
     mensagem = body.decode()
     print(f"Novo chamado de Software - {mensagem}")
 
-    # Gravar no arquivo auditoria_software.csv
-    with open("auditoria_software.csv", "a", newline="") as arq_tickets:
-        writer = csv.writer(arq_tickets)
-        writer.writerow([mensagem])
 
 def start_suporte_software():
     while True:
@@ -21,14 +17,14 @@ def start_suporte_software():
             channel = connection.channel()
 
             # Declarar o exchange
-            channel.exchange_declare(exchange='support_ticket_exchange', exchange_type='topic', durable=True)
+            channel.exchange_declare(exchange='support_ticket_topic_exchange', exchange_type='topic', durable=True)
 
             # Declarar uma fila temporária para o suporte de software
             result = channel.queue_declare(queue='', exclusive=True)
             queue_name = result.method.queue
 
             # Associar a fila ao exchange com a routing key para software
-            channel.queue_bind(exchange='support_ticket_exchange', queue=queue_name, routing_key='suporte.software')
+            channel.queue_bind(exchange='support_ticket_topic_exchange', queue=queue_name, routing_key='suporte.software')
 
             print('Suporte esperando por novos tickets de Software...')
 

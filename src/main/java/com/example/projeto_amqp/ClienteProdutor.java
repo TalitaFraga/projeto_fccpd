@@ -14,7 +14,7 @@ public class ClienteProdutor implements CommandLineRunner {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    private static final String EXCHANGE_NAME = "support_ticket_exchange";
+    private static final String EXCHANGE_NAME = "support_ticket_topic_exchange";
 
     @Override
     public void run(String... args) throws Exception {
@@ -30,16 +30,10 @@ public class ClienteProdutor implements CommandLineRunner {
             String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"));
 
             String mensagem = "[" + dataHora + "] " + nomeCliente + ": " + chamado;
+
             // Definir a chave de roteamento baseada no tipo de suporte
-            String routingKey = "";
-            if (tipoSuporte.equalsIgnoreCase("software")) {
-                routingKey = "suporte.software";
-            } else if (tipoSuporte.equalsIgnoreCase("hardware")) {
-                routingKey = "suporte.hardware";
-            } else {
-                System.out.println("Tipo de suporte inválido. Use 'software' ou 'hardware'.");
-                return;
-            }
+            String routingKey = "suporte." + tipoSuporte.toLowerCase();  // "suporte.hardware" ou "suporte.software"
+
             rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, mensagem);
             System.out.println("Chamado de suporte enviado com sucesso: " + mensagem);
         } else {

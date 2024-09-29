@@ -1,19 +1,29 @@
 import pika
 import csv
-from datetime import datetime
 import time
+
+
+# Caminhos para os arquivos de auditoria
+AUDITORIA_SOFTWARE_PATH = 'auditoria_software.csv'
+AUDITORIA_HARDWARE_PATH = 'auditoria_hardware.csv'
 
 def callback(ch, method, properties, body):
     mensagem = body.decode()
+    routing_key = method.routing_key
 
-    print(f"AUDITORIA SOFTWARE: Mensagem recebida - {mensagem}")
+    # Salvar a mensagem no arquivo correspondente
+    if routing_key == 'suporte.software':
+        print(f"AUDITORIA SOFTWARE: Mensagem recebida - {mensagem}")
+        with open(AUDITORIA_SOFTWARE_PATH, 'a', newline='') as arq_tickets:
+            writer = csv.writer(arq_tickets)
+            writer.writerow([mensagem])
+    elif routing_key == 'suporte.hardware':
+        print(f"AUDITORIA HARDWARE: Mensagem recebida - {mensagem}")
+        with open(AUDITORIA_HARDWARE_PATH, 'a', newline='') as arq_tickets:
+            writer = csv.writer(arq_tickets)
+            writer.writerow([mensagem])
 
-    # Escrever no arquivo auditoria_software.csv
-    with open("auditoria_software.csv", "a", newline="") as arq_tickets:
-        writer = csv.writer(arq_tickets)
-        writer.writerow([mensagem])
-
-def start_auditoria_software():
+def start_auditoria():
     while True:
         try:
             # Conectar ao RabbitMQ no CloudAMQP
@@ -23,16 +33,16 @@ def start_auditoria_software():
             channel = connection.channel()
 
             # Declarar o exchange como 'topic'
-            channel.exchange_declare(exchange='support_ticket_exchange', exchange_type='topic', durable=True)
+            channel.exchange_declare(exchange='support_ticket_topic_exchange', exchange_type='topic', durable=True)
 
-            # Declarar uma fila temporária para o backend de auditoria de software
             result = channel.queue_declare(queue='', exclusive=True)
             queue_name = result.method.queue
 
-            # Associar a fila ao exchange, escutando apenas mensagens de 'software'
-            channel.queue_bind(exchange='support_ticket_exchange', queue=queue_name, routing_key='suporte.software')
+            # Associar a fila ao exchange para receber tanto software quanto hardware
+            channel.queue_bind(exchange='support_ticket_topic_exchange', queue=queue_name, routing_key='suporte.software')
+            channel.queue_bind(exchange='support_ticket_topic_exchange', queue=queue_name, routing_key='suporte.hardware')
 
-            print('Backend de auditoria para Software esperando por mensagens...')
+            print('Backend de auditoria esperando por mensagens...')
 
             # Configurar o consumidor
             channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
@@ -42,6 +52,6 @@ def start_auditoria_software():
 
         except pika.exceptions.AMQPConnectionError:
             print("Conexão com RabbitMQ perdida. Tentando reconectar...")
-            time.sleep(5)  # Espera 5 segundos antes de tentar reconectar
+            time.sleep(5)
 
-start_auditoria_software()
+start_auditoria()
