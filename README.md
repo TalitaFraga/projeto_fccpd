@@ -26,27 +26,33 @@ git clone https://github.com/TalitaFraga/projeto_fccpd.git
 Configure o RabbitMQ utilizando as credenciais fornecidas pelo serviço CloudAMQP
 
 ## Executar os Consumidores (Python)
-
+Acessar a pasta python e executar no terminal
+Para consumidor software:
 ```sh
-Acessar a pasta python e executar no terminal python3 consumidor_software.py (para consumidor software) e python3 consumidor_hardware.py (para consumidor hardware)
+ python3 consumidor_software.py
+```
+Para consumidor hardware:
+```sh
+python3 consumidor_hardware.py 
 ```
 
 
 ## Executar o Backend de Auditoria (Python)
+Acessar a pasta python e executar:
 ```sh
-Acessar a pasta python e executar python3 auditoria.py
+python3 auditoria.py
 ```
 
 ## Executando o menu
+Na pasta raiz do projeto executar no terminal:
 ```sh
-Na pasta raiz do projeto executar no terminal python3 menu.py
-O menu aparecerá o terminal. Você será capaz de abrir novos chamados de hardware ou software, resolver tickets ou sair do menu.
+python3 menu.py
 ```
+O menu aparecerá o terminal. Você será capaz de abrir novos chamados de hardware ou software, resolver tickets ou sair do menu.
 
 ## Arquivos de Auditoria
-```sh
 Os chamados são resgistrados em dois arquivos: auditoria_software.csv para problemas de software e auditoria_hardware.csv para problemas de hardware.
 Os chamados resolvidos são resgistrados em dois arquivos: log_suporte_hardware.txt para problemas de hardware e log_suporte_software.txt para problemas de software
-```
+
 
 Se estiver usando macOS/Linux execute python3 + nome do arquivo. Windows use python + nome do arquivo
