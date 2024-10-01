@@ -10,16 +10,22 @@ def callback(ch, method, properties, body):
     mensagem = body.decode()
     routing_key = method.routing_key
 
-    if routing_key == 'suporte.software':
-        print(f"AUDITORIA SOFTWARE: Mensagem recebida - {mensagem}")
-        with open(AUDITORIA_SOFTWARE_PATH, 'a', newline='') as arq_tickets:
-            writer = csv.writer(arq_tickets)
-            writer.writerow([mensagem])
-    elif routing_key == 'suporte.hardware':
-        print(f"AUDITORIA HARDWARE: Mensagem recebida - {mensagem}")
-        with open(AUDITORIA_HARDWARE_PATH, 'a', newline='') as arq_tickets:
-            writer = csv.writer(arq_tickets)
-            writer.writerow([mensagem])
+    try:
+        if routing_key == 'suporte.software':
+            print(f"AUDITORIA SOFTWARE: Mensagem recebida - {mensagem}")
+            with open(AUDITORIA_SOFTWARE_PATH, 'a', newline='') as arq_tickets:
+                writer = csv.writer(arq_tickets)
+                writer.writerow([mensagem])
+            print(f"Mensagem gravada em {AUDITORIA_SOFTWARE_PATH}")
+
+        elif routing_key == 'suporte.hardware':
+            print(f"AUDITORIA HARDWARE: Mensagem recebida - {mensagem}")
+            with open(AUDITORIA_HARDWARE_PATH, 'a', newline='') as arq_tickets:
+                writer = csv.writer(arq_tickets)
+                writer.writerow([mensagem])
+            print(f"Mensagem gravada em {AUDITORIA_HARDWARE_PATH}")
+    except Exception as e:
+        print(f"Erro ao gravar no arquivo CSV: {e}")
 
 def start_auditoria():
     while True:

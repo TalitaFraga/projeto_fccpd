@@ -1,6 +1,8 @@
 import pika
 import csv
 import time
+from datetime import datetime
+
 
 def callback(ch, method, properties, body):
     mensagem = body.decode()
