@@ -1,3 +1,5 @@
 Resolvido: [30/09/2024 - 20:50] Cliente: Igor - Descrição: Atualizar vscode | Resolvido por: Talita - Resposta: atualizado
 Resolvido: [30/09/2024 - 21:12] Cliente: Julia - Descrição: Atualizar intelliJ | Resolvido por: Talita - Resposta: IDE atualizada
 Resolvido: [30/09/2024 - 21:19] Cliente: Luana - Descrição: o software travou o pc inteiro | Resolvido por: Talita - Resposta: tudo resolvido
+Resolvido: [30/09/2024 - 22:04] Cliente: Guilherme - Descrição: problema para iniciar o intelliJ | Resolvido por: Talita - Resposta: intelliJ funcionando
+Resolvido: [30/09/2024 - 22:18] Cliente: Luiza - Descrição: intellij sem funcionar | Resolvido por: Talita - Resposta: intellij funcionando

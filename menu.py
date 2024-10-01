@@ -60,7 +60,7 @@ def ver_e_resolver_ticket():
 
                 # Gravar a resposta no arquivo de log correspondente
                 with open(log_suporte_path, 'a', newline='') as log_file:
-                    log_file.write(f"Resolvido: {ticket_resolvido.strip()} | Resolvido por: {nome_analista} - Resposta: {resposta}\n")
+                    log_file.write(f"Resolvido: {ticket_resolvido.strip()} | Resolvido por: {nome_analista} - Resposta: {resposta} \n")
                 print(f"Ticket resolvido e registrado em {log_suporte_path}: {ticket_resolvido.strip()}")
 
                 # Atualizar o arquivo de auditoria, removendo o ticket resolvido
