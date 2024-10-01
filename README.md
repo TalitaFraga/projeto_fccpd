@@ -14,6 +14,7 @@
 - **Python**: Para os consumidores e auditoria
 - **RabbitMQ**: Para o gerenciamento de mensagens (CloudAMQP configurado)
 - **Maven**: Para compilar e rodar o projeto Java
+- **Dependência Python**: pika (para comunicação com RabbitMQ)
 
 ## Instalação e Execução
 
@@ -24,6 +25,17 @@ git clone https://github.com/TalitaFraga/projeto_fccpd.git
 ```
 ## Configurar o RabbitMQ
 Configure o RabbitMQ utilizando as credenciais fornecidas pelo serviço CloudAMQP
+
+## Instalação das dependências
+- **Java**: Certifique-se de que o JDK 21 está instalado.
+- **Maven**: Execute o seguinte comando para baixar as dependências do Maven:
+
+mvn clean install
+
+- **Python**: Para instalar a dependência pika, execute:
+
+pip install pika
+
 
 ## Executar os Consumidores (Python)
 Acessar a pasta python e executar no terminal
