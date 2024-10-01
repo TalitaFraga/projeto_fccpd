@@ -1,3 +1,3 @@
-Resolvido: Cliente: Talita - Descrição: Excel sem licença | Resolvido por: Jose  - Resposta: Excel atualizado 
-Resolvido: Cliente: Luiz - Descrição: VScode com problemas para iniciar | Resolvido por: Theo - Resposta: VScode atualizado com sucesso
-Resolvido: Cliente: Henrique  - Descrição: excel sem abrir | Resolvido por: Talita - Resposta: Excel atualizado
+Resolvido: [30/09/2024 - 20:50] Cliente: Igor - Descrição: Atualizar vscode | Resolvido por: Talita - Resposta: atualizado
+Resolvido: [30/09/2024 - 21:12] Cliente: Julia - Descrição: Atualizar intelliJ | Resolvido por: Talita - Resposta: IDE atualizada
+Resolvido: [30/09/2024 - 21:19] Cliente: Luana - Descrição: o software travou o pc inteiro | Resolvido por: Talita - Resposta: tudo resolvido

@@ -14,29 +14,30 @@ public class ClienteProdutor implements CommandLineRunner {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    private static final String EXCHANGE_NAME = "support_ticket_topic_exchange";
+     private static final String EXCHANGE_NAME = "support_ticket_topic_exchange";
 
     @Override
-    public void run(String... args) throws Exception {
-        if (args.length >= 3) {
-            String tipoSuporte = args[0];
-            String nomeCliente = args[1];
-            StringBuilder chamadoBuilder = new StringBuilder();
-            for (int i = 2; i < args.length; i++) {
-                chamadoBuilder.append(args[i]).append(" ");
-            }
-            String chamado = chamadoBuilder.toString().trim();
+	public void run(String... args) throws Exception {
+	 	if (args.length < 3) {
+	 		System.out.println("Uso: java -jar projeto_amqp.jar <routing_key> <nome_cliente> <descricao_chamado>");
+	 		return;
+	 	}
 
-            String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"));
+		// Receber os argumentos do subprocess
+		String routingKey = args[0];
+		String nomeCliente = args[1];
+		// Construa a descrição do chamado juntando todos os argumentos restantes
+		StringBuilder descricaoBuilder = new StringBuilder();
+		for (int i = 2; i < args.length; i++) {
+			descricaoBuilder.append(args[i]).append(" ");
+		}
+		String descricaoChamado = descricaoBuilder.toString().trim();
+		String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"));
+		String message = String.format("[%s] Cliente: %s - Descrição: %s", dataHora, nomeCliente, descricaoChamado);
 
-            String mensagem = "[" + dataHora + "] " + nomeCliente + ": " + chamado;
+		// Publicar a mensagem no RabbitMQ
+		rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, message);
 
-            String routingKey = "suporte." + tipoSuporte.toLowerCase(); 
-
-            rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, mensagem);
-            System.out.println("Chamado de suporte enviado com sucesso: " + mensagem);
-        } else {
-            System.out.println("É necessário fornecer o nome do cliente e a descrição do chamado.");
-        }
-    }
+		System.out.println("Mensagem enviada: " + message);
+	}
 }

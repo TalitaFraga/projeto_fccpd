@@ -1,3 +1,3 @@
-Resolvido: Cliente: Talita - Descrição: TV com tela piscando | Resolvido por: Francisco - Resposta: Tela trocada
-Resolvido: Cliente: João - Descrição: Mouse quebrado | Resolvido por: Letícia - Resposta: Mouse trocado por um novo
-Resolvido: Cliente: Talita - Descrição: Impressora sem tinta | Resolvido por: Henrique - Resposta: Tinta enviada para o setor
+Resolvido: [30/09/2024 - 20:50] Cliente: Julia - Descrição: teclado sem funcionar | Resolvido por: Talita - Resposta: novo teclado enviado
+Resolvido: [30/09/2024 - 21:12] Cliente: henrique - Descrição: fonte queimada | Resolvido por: Francisco - Resposta: nova fonte enviada
+Resolvido: [30/09/2024 - 21:23] Cliente: Talita - Descrição: tv com a tela piscando | Resolvido por: Talita - Resposta: tv trocada
